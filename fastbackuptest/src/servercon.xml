@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <httpserverip>
+        <ip>192.168.43.157</ip>
+        <port>8888</port>
+    </httpserverip>
+    <httpclient1ip>
+        <ip>192.168.43.27</ip>
+        <port>8888</port>
+    </httpclient1ip>
+    <fileuri>
+        <clientfile>/home/zhaoyue/test</clientfile>
+        <serverfile>/home/kuan/FastBackUp</serverfile>>
+    </fileuri>
+</configuration>
