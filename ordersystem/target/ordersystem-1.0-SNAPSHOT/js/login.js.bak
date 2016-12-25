@@ -1,0 +1,157 @@
+!function (window,$) {
+    var configs = {
+        url_run:"index.html",       //登录成功后跳转地址
+        url_login:"td-login",       //登录接口地址
+        find_pw:false,               //true 保留忘记密码功能  false 删除忘记密码功能
+        remember_me:true,            // true 保留记住我功能  false 删除记住我功能
+        register:true,                 //true 保留注册功能  false 删除注册功能
+        login_title:"在线点餐系统登录",        //修改登录名称
+        dataType:"json",              //服务器返回的数据类型
+        type:"post"						//请求的方式
+    };
+    $(function () {
+        var login = {
+            conf: function () {
+                $(".login-title").text(configs.login_title);
+                if (configs.find_pw) {
+                    $(".forget-pw").show();
+                } else {
+                    $(".forget-pw").hide();
+                }
+                if (configs.remember_me) {
+                    $(".rem-label").show();
+                } else {
+                    $(".rem-label").hide();
+                }
+                if (configs.register) {
+                    $(".register-pw").show();
+                } else {
+                    $(".register-pw").hide();
+                }
+            },
+            check: function () {
+                var reg_email =  /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/,
+                    reg_pwd = /.{6,18}/,
+                    reg_empty = /\s/g;
+                var user = $(".login-user").val().replace(reg_empty,''),
+                    pwd = $(".login-pw").val().replace(reg_empty,''),
+                    rem = $("#remember").prop('checked');
+                var err_tips = $(".login-error");
+                if(user === "") {
+                    err_tips.text("用户名不能为空").show();
+                    return false;
+                }else {
+                    if(!reg_email.test(user)) {
+                        err_tips.text("请输入正确的邮箱").show();
+                        return false;
+                    }
+                }
+                if(pwd === "") {
+                    err_tips.text("密码不能为空").show();
+                    return false;
+                }else {
+                    if(!reg_pwd.test(pwd)) {
+                        err_tips.text("密码输入错误").show();
+                        return false;
+                    }
+                }
+                if(reg_email.test(user) && reg_pwd.test(pwd)) {
+                    err_tips.hide();
+                    return tmp = {
+                        user:user,
+                        pwd:pwd,
+                        rem:rem
+                    };
+                }
+
+            },
+            focus: function () {
+                $(".login-user").focus(function () {
+                    $(".login-error").hide();
+                    $(this).css({'border-left-color':'#13b5fe'});
+                });
+                $(".login-pw").focus(function () {
+                    $(".login-error").hide();
+                    $(this).css({'border-left-color':'#13b5fe'});
+                })
+            },
+            blur: function () {
+                var self = this;
+                $(".login-user").blur(function () {
+                    $(this).css('border-left-color',"#ffffff");
+                    self.check();
+                });
+                $(".login-pw").blur(function () {
+                    $(this).css("border-left-color","#ffffff");
+                    self.check();
+                })
+            },
+            submit: function () {
+                var self = this;
+                $(".login-btn").on("click",function(e) {
+                    e.preventDefault();
+                    var info = self.check();
+                    if(info) {
+                        $.ajax({
+                            url:configs.url_login,
+                            type:configs.type,
+                            dataType:configs.dataType,
+                            data:JSON.stringify(tmp),
+                            beforeSend:function () {
+                                $(".login-btn").val("正在登录中……");
+                            },
+                            success: function (data) {
+                                if(data.status == 200) {
+                                    if (info.rem) {
+                                        cookie.setCookie("username",info.user);
+                                        cookie.setCookie("password",info.pwd);
+                                    }else {
+                                        cookie.setCookie("username",info.user);
+                                    }
+                                }
+                                window.location.href = configs.url_run;
+                                $(".login-btn").val("登录");
+                            },
+                            error: function (data) {
+                                $(".login-error").text(data.responseText).show();
+                                $(".login-btn").val("登录");
+                                console.log(JSON.stringify(tmp));
+                            },
+                            complete: function () {
+
+                            }
+                        })
+                    }
+                })
+            },
+            init: function () {
+                this.conf();
+                this.submit();
+                this.focus();
+                this.blur();
+            }
+        };
+        var cookie = {
+            setCookie: function (name,value, expires_day) {
+                var exdate = new Date();
+                exdate.setDate(exdate.getDate() + expires_day);
+                document.cookie = name + "=" + escape(value) + ((expires_day == null) ? "" :";expires=" + exdate.toGMTString()) + ";path=/";
+            },
+            getCookie: function (name) {
+                name += '=';
+                var cookies = (document.cookie || "").split(";"),
+                    cookie,
+                    nameLength = name.length,
+                    i = cookies.length;
+                while (i--) {
+                    cookie = cookies[i].replace(/^\s+/,'');
+                    if (cookies.slice(0,nameLength) === name) {
+                        return decodeURIComponent(cookie.slice(nameLength)).replace(/\s+$/,'');
+                    }
+                }
+                return '';
+            }
+        };
+        login.init();
+    })
+}(window,$);

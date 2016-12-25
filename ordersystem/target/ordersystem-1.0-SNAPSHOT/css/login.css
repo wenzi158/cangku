@@ -1,0 +1,99 @@
+html,body,div,a,b,i,strong,em,div,h1,h2,h3,h4,h5,a,ul,li,dl,ol,dt,dd,p,span,input,button,img,label{
+    margin:0;
+    padding:0;
+}
+html,body{
+    font: 14px/1.5 Tahoma, Helvetica, Arial, “\5b8b\4f53″, sans-serif;
+}
+
+.login-contain{
+    position: fixed;
+    /*background: url(../images/login-bg.jpg) no-repeat left top;*/
+    background-size: 100% 100%;
+    z-index:1;
+    width:100%;
+    height:100%;
+}
+.login{
+    width:280px;
+    height:350px;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+    padding:30px;
+    border-radius:5px;
+    box-shadow: 0 0 10px #ccc;
+    background: #ffffff;
+    z-index:5;
+}
+.login-logo{
+    height:40px;
+    width:100%;
+    background: url(../images/login-logo.png) no-repeat center center;
+    background-size: 100% 100%;
+}
+.login-title{
+    width:100%;
+    height:60px;
+    text-align: center;
+    line-height:60px;
+    color:#5b5f60;
+    font-weight: bold;
+}
+
+.login-user{
+    height:45px;
+    background: #f8f8f8;
+    margin:10px 0;
+    border:2px solid transparent;
+    text-indent:10px;
+    width:270px;
+    outline:none;
+}
+.login-user:hover{
+    border-left-color: #13b5fe;
+}
+.login-pw{
+    height:45px;
+    background: #f8f8f8;
+    margin:10px 0;
+    border:2px solid transparent;
+    text-indent: 10px;
+    width:270px;
+    outline:none;
+}
+.login-pw:hover{
+    border-left-color: #13b5fe;
+}
+
+.find-div{
+    height:60px;
+    line-height:60px;
+}
+
+.bak-div{
+    height:10px;
+    line-height:10px;
+}
+.login-btn{
+    width:100%;
+    height:45px;
+    background:#4a9ede;
+    color: #ffffff;
+    font-size:16px;
+    cursor: pointer;
+    outline: none;
+}
+
+.register-btn{
+    width:100%;
+    height:45px;
+    background:#4a9ede;
+    color: #ffffff;
+    font-size:16px;
+    cursor: pointer;
+    outline: none;
+}
